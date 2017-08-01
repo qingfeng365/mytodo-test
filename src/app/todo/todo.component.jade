@@ -1,0 +1,17 @@
+section.todoapp
+  header.header
+    h1 待办事项
+    input.new-todo(placeholder='需要做什么?',autofocus='',[(ngModel)]='desc',
+     (keyup.enter)='addTodo()')
+  section.main(*ngIf='todos?.length > 0')
+    ul.todo-list
+      li(*ngFor='let todo of todos',[class.completed]='todo.completed')
+        .view
+          input.toggle(type='checkbox',(click)='toggleTodo(todo);$event.stopPropagation()',
+            [checked]='todo.completed')
+          label((click)='toggleTodo(todo);$event.stopPropagation()') {{todo.desc}}
+          button.destroy((click)='removeTodo(todo);$event.stopPropagation()')
+  footer.footer(*ngIf='todos?.length > 0')
+    span.todo-count
+      strong {{todos?.length}}
+      | 条

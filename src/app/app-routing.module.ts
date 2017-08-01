@@ -1,10 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { TodoComponent } from './todo/todo.component';
 
 const routes: Routes = [
   {
     path: '',
-    children: []
+    redirectTo: '/todo',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'todo',
+    component: TodoComponent
   }
 ];
 

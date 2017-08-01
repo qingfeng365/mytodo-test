@@ -1,0 +1,11 @@
+div
+  form(#formCtrl="ngForm",(ngSubmit)="onLogin(formCtrl.valid)")
+    div 用户:
+      input(type="text",[(ngModel)]="username",required,minlength="3",name="username")
+      p(*ngIf="formCtrl.controls['username']?.touched && formCtrl.controls['username']?.errors?.required") 请输入用户帐号.
+      p(*ngIf="formCtrl.controls['username']?.touched && formCtrl.controls['username']?.errors?.minlength") 用户帐号长度不合法.
+    div 密码:
+      input(type="password",[(ngModel)]="password",required,name="password")
+      p(*ngIf="formCtrl.controls['password']?.touched && formCtrl.controls['password']?.errors?.required") 请输入密码.
+    div
+      button(type="submit") 登录
