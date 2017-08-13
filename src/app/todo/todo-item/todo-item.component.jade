@@ -1,0 +1,6 @@
+.view
+  input.toggle(type='checkbox',(click)='switch();$event.stopPropagation()',
+    [checked]='isChecked')
+  label((click)='switch();$event.stopPropagation()',
+    [class.labelcompleted]='isChecked') {{desc}}
+  button.destroy((click)='remove();$event.stopPropagation()')

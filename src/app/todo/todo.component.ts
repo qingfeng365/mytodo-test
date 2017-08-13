@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TodoService } from '../service/todo.service';
-import { Todo } from "../model/todo";
+import { Todo } from './model/todo';
+import { TodoService, TodoFilterType } from './service/todo.service';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+
+import 'rxjs/Rx';
 
 @Component({
   selector: 'app-todo',
@@ -10,26 +14,40 @@ import { Todo } from "../model/todo";
 export class TodoComponent implements OnInit {
 
   todos: Todo[];
-  desc = '';
 
-  constructor(private todoService: TodoService) { }
+  constructor(private todoService: TodoService,
+    private routeInfo: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getTodos();
+    this.routeInfo.params.subscribe(params => {
+      const filterTypeName = params['filterType'];
+      if (!filterTypeName) {
+        this.getTodos(TodoFilterType.all);
+      } else {
+        const keyname = filterTypeName as keyof typeof TodoFilterType;
+        this.getTodos(TodoFilterType[keyname]);
+      }
+    });
+
   }
 
-  getTodos(): void {
+
+  getTodos(filterType: TodoFilterType): void {
+
     this.todoService
-      .getTodos()
-      .then(todos => this.todos = [...todos]);
+      .filterTodos(filterType)
+      .then(todos => {
+        console.log('getTodos 完成...');
+        this.todos = [...todos];
+        console.log(this.todos);
+      });
   }
 
-  addTodo() {
+  addTodo(desc: string) {
     this.todoService
-      .addTodo(this.desc)
+      .addTodo(desc)
       .then(todo => {
         this.todos = [...this.todos, todo];
-        this.desc = '';
       });
   }
 
@@ -55,6 +73,37 @@ export class TodoComponent implements OnInit {
           ...this.todos.slice(0, i),
           ...this.todos.slice(i + 1)
         ];
+      });
+  }
+
+  clearCompleted() {
+    const completedTodos = this.todos.filter(todo => todo.completed === true);
+    Observable.from(completedTodos)
+      .concatMap(todo => this.todoService.deleteTodoById(todo.id))
+      .count()
+      .subscribe(() => {
+        console.log('准备读取Todos...');
+        this.getTodos(TodoFilterType.all);
+      });
+
+    // Observable.from(completedTodos)
+    //   .flatMap(todo => this.todoService.deleteTodoById(todo.id))
+    //   .count()
+    //   .subscribe(() => {
+    //     console.log('准备读取Todos...');
+    //     this.getTodos(TodoFilterType.all);
+    //   });
+
+
+  }
+
+  toggleAll(isSelectAll: boolean) {
+    const todos = this.todos.filter(todo => todo.completed === !isSelectAll);
+    Observable.from(todos)
+      .flatMap(todo => this.todoService.toggleTodo(todo))
+      .count()
+      .subscribe(() => {
+        this.getTodos(TodoFilterType.all);
       });
   }
 }

@@ -1,0 +1,4 @@
+header.header
+  h1 待办事项
+  input.new-todo([placeholder]="hint",autofocus='',[(ngModel)]='inputText',
+    (keyup.enter)='inputCompleted()')

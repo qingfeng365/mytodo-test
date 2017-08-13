@@ -1,0 +1,12 @@
+footer.footer(*ngIf='itemCount > 0')
+  span.todo-count
+    strong {{itemCount}}
+    | 条
+  ul.filters
+    li
+      a([routerLink]="['/todo',{filterType:'all'}]") 全部
+    li
+      a([routerLink]="['/todo',{filterType:'active'}]") 活跃
+    li
+      a([routerLink]="['/todo',{filterType:'completed'}]") 已完成
+  button.clear-completed(type="button", (click)="clear()") 清除已完成
