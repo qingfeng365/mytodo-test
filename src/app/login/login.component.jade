@@ -9,3 +9,5 @@ div
       p(*ngIf="formCtrl.controls['password']?.touched && formCtrl.controls['password']?.errors?.required") 请输入密码.
     div
       button(type="submit") 登录
+    hr
+    p(*ngIf="auth?.hasError") {{auth?.errMsg}}
