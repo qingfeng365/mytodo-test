@@ -2,7 +2,7 @@
 <div>
   <form #formCtrl="ngForm" (ngSubmit)="onLogin(formCtrl.valid)">
     <div>用户:
-      <input type="text" [(ngModel)]="username" required="required" minlength="3" name="username"/>
+      <input type="text" [(ngModel)]="username" required="required" minlength="2" name="username"/>
       <p *ngIf="formCtrl.controls['username']?.touched &amp;&amp; formCtrl.controls['username']?.errors?.required">请输入用户帐号.</p>
       <p *ngIf="formCtrl.controls['username']?.touched &amp;&amp; formCtrl.controls['username']?.errors?.minlength">用户帐号长度不合法.</p>
     </div>
@@ -13,5 +13,7 @@
     <div>
       <button type="submit">登录</button>
     </div>
+    <hr/>
+    <p *ngIf="auth?.hasError">{{auth?.errMsg}}</p>
   </form>
 </div>

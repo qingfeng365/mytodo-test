@@ -14,11 +14,12 @@ export class UserService {
   }
 
   findUser(username: string): Promise<User> {
-    const url = `${this.apiUrl}/?username=${username}`;
-    return this.http.get(this.apiUrl)
+    const url = `${this.apiUrl}?username=${username}`;
+    return this.http.get(url)
       .toPromise()
       .then(res => {
         const users = res.json().data as User[];
+        console.log(users);
         if (users.length > 0) {
           return users[0];
         } else {

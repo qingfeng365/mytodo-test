@@ -30,10 +30,12 @@ export class TodoService {
   }
 
   addTodo(desc: string): Promise<Todo> {
+    const userId: number = +localStorage.getItem('userId');
     const body = {
       id: UUID.v4(),
       desc: desc,
-      completed: false
+      completed: false,
+      userId
     };
     return this.http.post(this.apiUrl, body)
       .toPromise()
@@ -54,21 +56,22 @@ export class TodoService {
       .catch(this.catchError);
   }
   filterTodos(filterType: TodoFilterType): Promise<Todo[]> {
+    const userId: number = +localStorage.getItem('userId');
     switch (filterType) {
       case TodoFilterType.all:
-        return this.http.get(this.apiUrl)
+        return this.http.get(`${this.apiUrl}?userId=${userId}`)
           .toPromise()
           .then(res => res.json().data as Todo[])
           .catch(this.catchError);
       case TodoFilterType.active:
         return this.http
-          .get(`${this.apiUrl}?completed=false`)
+          .get(`${this.apiUrl}?userId=${userId}&completed=false`)
           .toPromise()
           .then(res => res.json().data as Todo[])
           .catch(this.catchError);
       case TodoFilterType.completed:
         return this.http
-          .get(`${this.apiUrl}?completed=true`)
+          .get(`${this.apiUrl}?userId=${userId}&completed=true`)
           .toPromise()
           .then(res => res.json().data as Todo[])
           .catch(this.catchError);
