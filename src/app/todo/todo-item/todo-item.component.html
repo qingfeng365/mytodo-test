@@ -1,6 +1,6 @@
 
-<div class="view">
-  <input type="checkbox" (click)="switch();$event.stopPropagation()" [checked]="isChecked" class="toggle"/>
-  <label (click)="switch();$event.stopPropagation()" [class.labelcompleted]="isChecked">{{desc}}</label>
+<div>
+  <mdl-icon-toggle (click)="switch();$event.stopPropagation()" [(ngModel)]="isChecked">check_circle</mdl-icon-toggle>
+  <label (click)="switch();$event.stopPropagation()" [class.labelcompleted]="isChecked" class="todoDesc">{{desc}}</label>
   <button (click)="remove();$event.stopPropagation()" class="destroy"></button>
 </div>

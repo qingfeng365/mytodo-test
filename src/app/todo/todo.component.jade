@@ -1,4 +1,4 @@
-section.todoapp
+div
   app-todo-header(hint="需要做什么?",(onInputCompleted)="addTodo($event)")
   app-todo-list([todos]="todos",(onRequireSwitch)="toggleTodo($event)",(onRequireRemove)="removeTodo($event)",
   (onRequireToggleAll)="toggleAll($event)")

@@ -1,6 +1,6 @@
 
 <section *ngIf="todos?.length > 0" class="main">
-  <input type="checkbox" #checkAll="" (click)="toggleAll(checkAll.checked)" class="toggle-all"/>
+  <mdl-icon-toggle [(ngModel)]="isToggleAll" (click)="toggleAll(isToggleAll)" class="toggle-all">check_circle</mdl-icon-toggle>
   <ul class="todo-list">
     <li *ngFor="let todo of todos" [class.completed]="todo.completed">
       <app-todo-item [isChecked]="todo.completed" [desc]="todo.desc" (onRequireSwitch)="switchItem(todo)" (onRequireRemove)="removeItem(todo)"></app-todo-item>

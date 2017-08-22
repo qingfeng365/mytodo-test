@@ -9,12 +9,13 @@ import { TodoHeaderComponent } from './todo-header/todo-header.component';
 import { TodoRoutingModule } from './todo-routing.module';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
-
+import {MdlModule} from '@angular-mdl/core';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     HttpModule,
+    MdlModule,
     TodoRoutingModule
   ],
   declarations: [TodoComponent, TodoFooterComponent, TodoHeaderComponent, TodoListComponent, TodoItemComponent],
