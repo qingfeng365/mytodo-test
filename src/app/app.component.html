@@ -1,3 +1,17 @@
 
-<h3>待办事项管理</h3>
-<router-outlet></router-outlet>
+<mdl-layout class="mdl-layout-fixed-header mdl-layout-header-seamed">
+  <mdl-layout-header>
+    <mdl-layout-header-row>
+      <mdl-layout-title>{{title}}</mdl-layout-title>
+      <mdl-layout-spacer></mdl-layout-spacer>
+      <nav class="mdl-navigation"><a class="mdl-navigation__link">登出</a></nav>
+    </mdl-layout-header-row>
+  </mdl-layout-header>
+  <mdl-layout-drawer>
+    <mdl-layout-title>{{title}}</mdl-layout-title>
+    <nav class="mdl-navigation"><a class="mdl-navigation__link">Link</a></nav>
+  </mdl-layout-drawer>
+  <mdl-layout-content class="content">
+    <router-outlet></router-outlet>
+  </mdl-layout-content>
+</mdl-layout>

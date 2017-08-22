@@ -10,7 +10,7 @@ import { InMemoryDataService } from './mock-data/in-memory-data.service';
 import { TodoModule } from './todo/todo.module';
 import { FormsModule } from '@angular/forms';
 import { CoreModule } from './core/core.module';
-
+import {MdlModule} from '@angular-mdl/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +19,7 @@ import { CoreModule } from './core/core.module';
   imports: [
     BrowserModule,
     FormsModule,
+    MdlModule,
     AppRoutingModule,
     HttpModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService),

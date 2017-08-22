@@ -1,2 +1,13 @@
-h3 待办事项管理
-router-outlet
+mdl-layout.mdl-layout-fixed-header.mdl-layout-header-seamed
+  mdl-layout-header
+    mdl-layout-header-row
+      mdl-layout-title {{title}}
+      mdl-layout-spacer
+      nav.mdl-navigation
+        a.mdl-navigation__link 登出
+  mdl-layout-drawer
+    mdl-layout-title {{title}}
+    nav.mdl-navigation
+      a.mdl-navigation__link Link
+  mdl-layout-content.content
+    router-outlet
