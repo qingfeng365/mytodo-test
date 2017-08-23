@@ -1,19 +1,10 @@
 
 <div>
   <form #formCtrl="ngForm" (ngSubmit)="onLogin(formCtrl.valid)">
-    <div>用户:
-      <input type="text" [(ngModel)]="username" required="required" minlength="2" name="username"/>
-      <p *ngIf="formCtrl.controls['username']?.touched &amp;&amp; formCtrl.controls['username']?.errors?.required">请输入用户帐号.</p>
-      <p *ngIf="formCtrl.controls['username']?.touched &amp;&amp; formCtrl.controls['username']?.errors?.minlength">用户帐号长度不合法.</p>
-    </div>
-    <div>密码:
-      <input type="password" [(ngModel)]="password" required="required" name="password"/>
-      <p *ngIf="formCtrl.controls['password']?.touched &amp;&amp; formCtrl.controls['password']?.errors?.required">请输入密码.</p>
-    </div>
-    <div>
-      <button type="submit">登录</button>
-    </div>
-    <hr/>
+    <mdl-textfield type="text" label="用户帐号" name="username" floating-label="" required="required" minlength="2" [(ngModel)]="username"></mdl-textfield>
+    <mdl-textfield type="password" label="密码" name="password" floating-label="" required="required" [(ngModel)]="password"></mdl-textfield>
+    <button mdl-button="" mdl-button-type="raised" mdl-colored="primary" mdl-ripple="" type="submit">登录</button>
     <p *ngIf="auth?.hasError">{{auth?.errMsg}}</p>
+    <p *ngIf="formCtrl.controls['username']?.touched &amp;&amp; formCtrl.controls['username']?.errors?.minlength">用户帐号长度不合法.</p>
   </form>
 </div>
