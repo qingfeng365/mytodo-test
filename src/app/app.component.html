@@ -4,7 +4,10 @@
     <mdl-layout-header-row>
       <mdl-layout-title>{{title}}</mdl-layout-title>
       <mdl-layout-spacer></mdl-layout-spacer>
-      <nav class="mdl-navigation"><a class="mdl-navigation__link">登出</a></nav>
+      <nav *ngIf="auth?.user !== null" class="mdl-navigation"><a [routerLink]="['todo']" class="mdl-navigation__link">列表</a></nav>
+      <nav *ngIf="auth?.user !== null" class="mdl-navigation"><a class="mdl-navigation__link">{{auth?.user?.username}}</a></nav>
+      <nav *ngIf="auth?.user === null" class="mdl-navigation"><a [routerLink]="['login']" routerLink="" class="mdl-navigation__link">登录</a></nav>
+      <nav *ngIf="auth?.user !== null" class="mdl-navigation"><a (click)="logout()" routerLink="" class="mdl-navigation__link">登出</a></nav>
     </mdl-layout-header-row>
   </mdl-layout-header>
   <mdl-layout-drawer>

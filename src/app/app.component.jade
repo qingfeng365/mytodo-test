@@ -3,8 +3,14 @@ mdl-layout.mdl-layout-fixed-header.mdl-layout-header-seamed
     mdl-layout-header-row
       mdl-layout-title {{title}}
       mdl-layout-spacer
-      nav.mdl-navigation
-        a.mdl-navigation__link 登出
+      nav.mdl-navigation(*ngIf="auth?.user !== null")
+        a.mdl-navigation__link([routerLink]="['todo']") 列表
+      nav.mdl-navigation(*ngIf="auth?.user !== null")
+        a.mdl-navigation__link {{auth?.user?.username}}
+      nav.mdl-navigation(*ngIf="auth?.user === null")
+        a.mdl-navigation__link([routerLink]="['login']",routerLink="") 登录
+      nav.mdl-navigation(*ngIf="auth?.user !== null")
+        a.mdl-navigation__link((click)="logout()",routerLink="") 登出
   mdl-layout-drawer
     mdl-layout-title {{title}}
     nav.mdl-navigation

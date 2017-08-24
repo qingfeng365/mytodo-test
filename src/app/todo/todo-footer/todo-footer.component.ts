@@ -13,6 +13,9 @@ export class TodoFooterComponent implements OnInit {
   @Output()
   onRequireClear = new EventEmitter<void>();
 
+  @Input()
+  currFilterType: string;
+
   constructor() { }
 
   ngOnInit() {

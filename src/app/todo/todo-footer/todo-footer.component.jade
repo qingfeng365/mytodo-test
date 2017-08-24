@@ -4,9 +4,12 @@ footer.footer(*ngIf='itemCount > 0')
     | 条
   ul.filters
     li
-      a([routerLink]="['/todo',{filterType:'all'}]") 全部
+      a([routerLink]="['/todo',{filterType:'all'}]",
+        [class.active]="currFilterType==='all'") 全部
     li
-      a([routerLink]="['/todo',{filterType:'active'}]") 活跃
+      a([routerLink]="['/todo',{filterType:'active'}]",
+        [class.active]="currFilterType==='active'") 活跃
     li
-      a([routerLink]="['/todo',{filterType:'completed'}]") 已完成
+      a([routerLink]="['/todo',{filterType:'completed'}]",
+        [class.active]="currFilterType==='completed'") 已完成
   button.clear-completed(type="button", (click)="clear()") 清除已完成

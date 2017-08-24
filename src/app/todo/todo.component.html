@@ -2,5 +2,5 @@
 <div>
   <app-todo-header hint="需要做什么?" (onInputCompleted)="addTodo($event)"></app-todo-header>
   <app-todo-list [todos]="todos" (onRequireSwitch)="toggleTodo($event)" (onRequireRemove)="removeTodo($event)" (onRequireToggleAll)="toggleAll($event)"></app-todo-list>
-  <app-todo-footer [itemCount]="todos?.length" (onRequireClear)="clearCompleted()"></app-todo-footer>
+  <app-todo-footer [itemCount]="todos?.length" (onRequireClear)="clearCompleted()" [currFilterType]="currFilterType"></app-todo-footer>
 </div>

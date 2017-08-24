@@ -14,13 +14,14 @@ import 'rxjs/Rx';
 export class TodoComponent implements OnInit {
 
   todos: Todo[];
-
+  currFilterType: string;
   constructor(private todoService: TodoService,
     private routeInfo: ActivatedRoute) { }
 
   ngOnInit() {
     this.routeInfo.params.subscribe(params => {
       const filterTypeName = params['filterType'];
+      this.currFilterType = filterTypeName || 'all';
       if (!filterTypeName) {
         this.getTodos(TodoFilterType.all);
       } else {

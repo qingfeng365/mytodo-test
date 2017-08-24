@@ -3,5 +3,6 @@ div
   app-todo-list([todos]="todos",(onRequireSwitch)="toggleTodo($event)",(onRequireRemove)="removeTodo($event)",
   (onRequireToggleAll)="toggleAll($event)")
   app-todo-footer([itemCount]="todos?.length",
-    (onRequireClear)="clearCompleted()")
+    (onRequireClear)="clearCompleted()",
+    [currFilterType]="currFilterType")
 
