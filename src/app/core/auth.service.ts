@@ -26,9 +26,6 @@ export class AuthService {
       .then(user => {
         const auth = new Auth();
 
-        // 先清除以前的登录状态
-        localStorage.removeItem('userId');
-
         // 要跳回的路由
         auth.redirectUrl = localStorage.getItem('redirectUrl');
         if (!auth.redirectUrl) {
@@ -49,7 +46,6 @@ export class AuthService {
         }
         if (!auth.hasError) {
           auth.user = Object.assign({}, user);
-          localStorage.setItem('userId', String(user.id));
         }
 
         this.authSubject.next(Object.assign({}, auth));
@@ -63,7 +59,6 @@ export class AuthService {
   }
 
   emptyAuth(): void {
-    localStorage.removeItem('userId');
     const auth: Auth = {
       user: null,
       hasError: true,

@@ -3,13 +3,28 @@ import { Http } from '@angular/http';
 import { Todo } from '../model/todo';
 import 'rxjs/add/operator/toPromise';
 import * as UUID from 'node-uuid';
+import { AuthService } from '../../core/auth.service';
 
 @Injectable()
 export class TodoService {
 
   private apiUrl = 'api/todos';
 
-  constructor(private http: Http) { }
+  private userId: number;
+
+  constructor(private http: Http,
+    private authService: AuthService) {
+    this.authService
+      .getAuth()
+      .map(auth => {
+        if (auth && auth.user) {
+          return auth.user.id;
+        } else {
+          return 0;
+        }
+      })
+      .subscribe(id => this.userId = id);
+  }
 
   catchError(err) {
     console.log(err);
@@ -30,7 +45,7 @@ export class TodoService {
   }
 
   addTodo(desc: string): Promise<Todo> {
-    const userId: number = +localStorage.getItem('userId');
+    const userId: number = this.userId;
     const body = {
       id: UUID.v4(),
       desc: desc,
@@ -43,7 +58,7 @@ export class TodoService {
       .catch(this.catchError);
   }
 
-  deleteTodoById(id: string): Promise<string>  {
+  deleteTodoById(id: string): Promise<string> {
     const url = `${this.apiUrl}/${id}`;
     console.log('deleteTodoById 准备删除:' + id);
     return this.http
@@ -56,7 +71,7 @@ export class TodoService {
       .catch(this.catchError);
   }
   filterTodos(filterType: TodoFilterType): Promise<Todo[]> {
-    const userId: number = +localStorage.getItem('userId');
+    const userId: number = this.userId;
     switch (filterType) {
       case TodoFilterType.all:
         return this.http.get(`${this.apiUrl}?userId=${userId}`)
