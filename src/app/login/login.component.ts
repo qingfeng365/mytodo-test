@@ -27,12 +27,9 @@ export class LoginComponent implements OnInit {
       this.authService
         .validLogin(this.username, this.password)
         .then(auth => {
-          const redirectUrl = (auth.redirectUrl === null) ? '/' : auth.redirectUrl;
+          this.auth = Object.assign({}, auth);
           if (!auth.hasError) {
-            this.router.navigate([redirectUrl]);
-            localStorage.removeItem('redirectUrl');
-          } else {
-            this.auth = Object.assign({}, auth);
+            this.authService.notityLoginState(true);
           }
         });
     } else {

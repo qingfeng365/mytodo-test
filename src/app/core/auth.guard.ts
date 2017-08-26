@@ -11,16 +11,13 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const url = state.url;
-    console.log('canActivate...');
+    console.log(url);
     return this.authService
       .getAuth()
-      .do(v => console.log('canActivate getAuth...'))
       .map(auth => auth && !auth.hasError)
       .do(isvalid => {
         if (!isvalid) {
-          // 如果没有登录,则先保存当前 url
-          localStorage.setItem('redirectUrl', url);
-          this.router.navigate(['/login']);
+          this.authService.notityUnActivateRoute(url);
         }
       });
   }

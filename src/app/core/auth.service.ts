@@ -6,14 +6,24 @@ import { Auth } from './model/auth';
 
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import { User } from './model/user';
+import { Router } from '@angular/router';
+
+import 'rxjs/add/operator/withLatestFrom';
+// import 'rxjs/Rx';
 
 @Injectable()
 export class AuthService {
 
   private authSubject: BehaviorSubject<Auth> = new BehaviorSubject({});
+  private redirectUrlSubject: BehaviorSubject<string> =
+  new BehaviorSubject('/');
+  private loginSucceedSubject: BehaviorSubject<boolean> =
+  new BehaviorSubject(null);
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+    private router: Router) {
     this.emptyAuth();
+    this.procLoginSucceed();
   }
   catchError(err) {
     console.log(err);
@@ -25,12 +35,6 @@ export class AuthService {
       .findUser(username)
       .then(user => {
         const auth = new Auth();
-
-        // 要跳回的路由
-        auth.redirectUrl = localStorage.getItem('redirectUrl');
-        if (!auth.redirectUrl) {
-          auth.redirectUrl = '/';
-        }
 
         auth.hasError = false;
         auth.errMsg = '';
@@ -63,8 +67,41 @@ export class AuthService {
       user: null,
       hasError: true,
       errMsg: '尚未登录...',
-      redirectUrl: ''
     };
     this.authSubject.next(auth);
   }
+
+  notityUnActivateRoute(url: string): void {
+    this.redirectUrlSubject.next(url);
+    this.router.navigate(['/login']);
+  }
+
+  notityLoginState(isLogin: boolean): void {
+    if (!isLogin) {
+      this.emptyAuth();
+    }
+    this.loginSucceedSubject.next(isLogin);
+  }
+
+  private procLoginSucceed(): void {
+    this.loginSucceedSubject.asObservable()
+      .withLatestFrom(
+      this.authSubject.asObservable(),
+      this.redirectUrlSubject.asObservable()
+      )
+      .subscribe(v => {
+        const isLoginSucceed = v[0];
+        const redirectUrl = v[2];
+        if (isLoginSucceed !== null) {
+          if (isLoginSucceed) {
+            this.router.navigateByUrl(redirectUrl);
+          } else {
+            // 如果是登出, 则可跳转的 url 要重置
+            this.redirectUrlSubject.next('/');
+            this.router.navigateByUrl('/login');
+          }
+        }
+      });
+  }
 }
+

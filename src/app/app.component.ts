@@ -21,8 +21,7 @@ export class AppComponent implements OnInit {
         this.auth = Object.assign({}, auth));
   }
   logout(): void {
-    this.authService.emptyAuth();
     this.auth = null;
-    this.router.navigate(['login']);
+    this.authService.notityLoginState(false);
   }
 }
